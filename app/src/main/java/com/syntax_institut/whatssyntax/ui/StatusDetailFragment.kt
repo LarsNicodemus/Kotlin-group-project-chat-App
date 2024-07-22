@@ -45,6 +45,7 @@ class StatusDetailFragment: Fragment() {
                 navigateBack()
             }
         }
+        viewModel.markCurrentStatusAsRead()
     }
 private fun showImage(index: Int) {
     val imageUrl = "http://81.169.201.230:8080/${images[index]}"

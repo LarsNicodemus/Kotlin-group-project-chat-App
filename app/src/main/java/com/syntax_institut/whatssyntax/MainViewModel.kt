@@ -35,7 +35,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
-
+    fun markCurrentStatusAsRead() {
+        val currentContact = contact.value
+        currentContact?.markStatusAsRead()
+        // Aktualisieren Sie die LiveData, um die Änderung zu reflektieren
+        contact.value = currentContact
+    }
 //    fun selectContact(contact: Contact) {
 //        repository.selectContact(contact)
 //    }
