@@ -9,10 +9,6 @@
         android:name="com.syntax_institut.whatssyntax.ui.CallsFragment"
         android:label="CallsFragment" />
     <fragment
-        android:id="@+id/chatsFragment"
-        android:name="com.syntax_institut.whatssyntax.ui.ChatsFragment"
-        android:label="ChatsFragment" />
-    <fragment
         android:id="@+id/settingsFragment"
         android:name="com.syntax_institut.whatssyntax.ui.SettingsFragment"
         android:label="SettingsFragment" />
@@ -40,4 +36,8 @@
         android:id="@+id/notesFragment"
         android:name="com.syntax_institut.whatssyntax.ui.NotesFragment"
         android:label="NotesFragment" />
+    <fragment
+        android:id="@+id/chatsFragment"
+        android:name="com.syntax_institut.whatssyntax.ui.ChatsFragment"
+        android:label="ChatsFragment" />
 </navigation>

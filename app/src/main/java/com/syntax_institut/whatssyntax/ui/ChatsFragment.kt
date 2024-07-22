@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.syntax_institut.whatssyntax.MainViewModel
-import com.syntax_institut.whatssyntax.databinding.FragmentChatBinding
+import com.syntax_institut.whatssyntax.databinding.FragmentChatsBinding
 
 class ChatsFragment: Fragment() {
 
-    private lateinit var binding: FragmentChatBinding
+    private lateinit var binding: FragmentChatsBinding
     private val viewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -19,7 +19,7 @@ class ChatsFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentChatBinding.inflate(layoutInflater)
+        binding = FragmentChatsBinding.inflate(layoutInflater)
         return binding.root
     }
 
