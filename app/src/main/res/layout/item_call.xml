@@ -15,23 +15,38 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardCornerRadius="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/tv_call_contact_image"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_call_contact_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="#00FFFFFF"
+                app:cardCornerRadius="40dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/pp_01" />
+                >
+                <ImageView
+                    android:id="@+id/iv_call_contact_image"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/pp_01" />
+
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:id="@+id/tv_call_name"
@@ -41,9 +56,9 @@
                 android:text="Max Mustermann"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_call_contact_image"
-                app:layout_constraintStart_toEndOf="@+id/tv_call_contact_image"
-                app:layout_constraintTop_toTopOf="@+id/tv_call_contact_image"
+                app:layout_constraintBottom_toBottomOf="@+id/cv_call_contact_image"
+                app:layout_constraintStart_toEndOf="@+id/cv_call_contact_image"
+                app:layout_constraintTop_toTopOf="@+id/cv_call_contact_image"
                 app:layout_constraintVertical_bias="0.26999998" />
 
             <TextView
@@ -54,7 +69,7 @@
                 android:layout_marginTop="8dp"
                 android:text="11.10.23 20:15"
                 android:textSize="16sp"
-                app:layout_constraintStart_toEndOf="@+id/tv_call_contact_image"
+                app:layout_constraintStart_toEndOf="@+id/cv_call_contact_image"
                 app:layout_constraintTop_toBottomOf="@+id/tv_call_name" />
 
             <ImageView
@@ -62,9 +77,9 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="16dp"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_call_contact_image"
+                app:layout_constraintBottom_toBottomOf="@+id/cv_call_contact_image"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tv_call_contact_image"
+                app:layout_constraintTop_toTopOf="@+id/cv_call_contact_image"
                 app:srcCompat="@drawable/icon_call_accepted" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

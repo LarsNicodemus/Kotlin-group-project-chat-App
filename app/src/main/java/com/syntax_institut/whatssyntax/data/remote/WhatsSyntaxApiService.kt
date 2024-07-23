@@ -2,8 +2,10 @@ package com.syntax_institut.whatssyntax.data.remote
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.syntax_institut.whatssyntax.data.datamodel.CallResponse
 import com.syntax_institut.whatssyntax.data.datamodel.Contact
 import com.syntax_institut.whatssyntax.data.datamodel.Profile
+import com.syntax_institut.whatssyntax.data.datamodel.WhatsSyntaxResponse
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -35,6 +37,11 @@ interface WhatsSyntaxApiService {
         @Path("id") id: Int,
         @Query("key") key: String
     ): Contact
+
+    @GET("/group/{number}/chats")
+    suspend fun getChats(@Path("number") number: Int, @Query("key") key: String): List<Contact>
+    @GET("/group/{number}/calls")
+    suspend fun getCalls(@Path("number") number: Int, @Query("key") key: String): List<CallResponse>
 
     @GET("/group/{number}/profile")
     suspend fun getProfile(@Path("number") number: Int, @Query("key") key: String): Profile

@@ -1,8 +1,10 @@
 package com.syntax_institut.whatssyntax.data
 
 import androidx.lifecycle.MutableLiveData
+import com.syntax_institut.whatssyntax.data.datamodel.CallResponse
 import com.syntax_institut.whatssyntax.data.datamodel.Contact
 import com.syntax_institut.whatssyntax.data.datamodel.Profile
+import com.syntax_institut.whatssyntax.data.datamodel.WhatsSyntaxResponse
 import com.syntax_institut.whatssyntax.data.remote.WhatsSyntaxApi
 import retrofit2.Response
 
@@ -16,11 +18,20 @@ class Repository() {
     var contact: MutableLiveData<Contact> = _contact
     private var _profile = MutableLiveData<Profile>()
     var profile: MutableLiveData<Profile> = _profile
+    private var _callResponses = MutableLiveData<List<CallResponse>>()
+    var callResponses: MutableLiveData<List<CallResponse>> = _callResponses
+    private var _response = MutableLiveData<WhatsSyntaxResponse>()
+    var response: MutableLiveData<WhatsSyntaxResponse> = _response
 
 
     suspend fun getContacts() {
         val result = WhatsSyntaxApi.retrofitService.getContacts(number, key)
         _contacts.postValue(result)
+    }
+
+    suspend fun getCalls() {
+        val result = WhatsSyntaxApi.retrofitService.getCalls(number, key)
+        _callResponses.postValue(result)
     }
 
     suspend fun getContact(id: Int) {

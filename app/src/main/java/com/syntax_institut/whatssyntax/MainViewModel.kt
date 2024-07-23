@@ -19,6 +19,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     var profile = repository.profile
 
+    var callResponse = repository.callResponses
+
+    var contactsForCalls = repository.response
+
 
     init {
         getContacts()
@@ -28,6 +32,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             try {
                 repository.getContacts()
+            } catch (e: Exception) {
+                Log.e("MainViewModel", "Error loading contacts", e)
+            }
+        }
+    }
+    fun getCalls() {
+        viewModelScope.launch {
+            try {
+                repository.getCalls()
             } catch (e: Exception) {
                 Log.e("MainViewModel", "Error loading contacts", e)
             }
