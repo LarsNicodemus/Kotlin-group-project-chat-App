@@ -30,12 +30,12 @@ class StatusAdapter(
     }
 
     override fun onBindViewHolder(holder: StatusAdapter.StatusViewHolder, position: Int) {
-        val contact = contacts[position]
+        var contact = contacts[position]
         holder.binding.apply {
             tvStatusName.text = contact.name
             ivStatusImage.load("http://81.169.201.230:8080/${contact.image}")
 
-            var hasUnreadStatus = contact.status != null && !contact.status.isRead
+            val hasUnreadStatus = contact.status != null && !contact.status!!.isRead
             val saturation = if (hasUnreadStatus) 1f else 0f
             ivStatusImage.colorFilter = ColorMatrixColorFilter(ColorMatrix().apply {
                 setSaturation(saturation)
