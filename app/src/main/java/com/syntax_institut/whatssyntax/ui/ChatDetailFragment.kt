@@ -9,7 +9,7 @@ import androidx.fragment.app.activityViewModels
 import com.syntax_institut.whatssyntax.MainViewModel
 import com.syntax_institut.whatssyntax.databinding.FragmentChatDetailBinding
 
-class ChatDetailFragment: Fragment() {
+class ChatDetailFragment : Fragment() {
 
     private lateinit var binding: FragmentChatDetailBinding
     private val viewModel: MainViewModel by activityViewModels()

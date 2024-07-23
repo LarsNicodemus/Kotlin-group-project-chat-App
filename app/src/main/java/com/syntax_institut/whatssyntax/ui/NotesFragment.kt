@@ -9,7 +9,7 @@ import androidx.fragment.app.activityViewModels
 import com.syntax_institut.whatssyntax.MainViewModel
 import com.syntax_institut.whatssyntax.databinding.FragmentNotesBinding
 
-class NotesFragment: Fragment() {
+class NotesFragment : Fragment() {
 
     private lateinit var binding: FragmentNotesBinding
     private val viewModel: MainViewModel by activityViewModels()

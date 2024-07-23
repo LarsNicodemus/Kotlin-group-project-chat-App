@@ -8,19 +8,23 @@ import com.syntax_institut.whatssyntax.data.Repository
 import com.syntax_institut.whatssyntax.data.datamodel.Contact
 import com.syntax_institut.whatssyntax.data.datamodel.Profile
 import kotlinx.coroutines.launch
-import retrofit2.Response
+
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = Repository()
 
-    val contacts = repository.contacts
+    var contacts = repository.contacts
 
-    val contact = repository.contact
+    private var contact = repository.contact
 
-    val profile = repository.profile
+    var profile = repository.profile
 
 
-    fun getContacts() {
+    init {
+        getContacts()
+    }
+
+    private fun getContacts() {
         viewModelScope.launch {
             try {
                 repository.getContacts()
@@ -42,7 +46,17 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun markCurrentStatusAsRead() {
         val currentContact = contact.value
-        currentContact?.markStatusAsRead()
+        currentContact?.statusSeen = true
+        contact.value = currentContact
+    }
+
+    fun markStatusAsReadTwo(contact: Contact) {
+        repository.markStatusAsRead(contact)
+    }
+
+    fun markCurrentStatusAsUnread() {
+        val currentContact = contact.value
+        currentContact?.statusSeen = false
         contact.value = currentContact
     }
 
@@ -56,6 +70,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+
     fun updateProfile(profile: Profile) {
         viewModelScope.launch {
             try {
@@ -63,8 +78,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             } catch (e: Exception) {
                 Log.e("MainViewModel", "Error updating profile", e)
             }
-            }
+        }
     }
+
     fun selectContact(contact: Contact) {
         repository.selectContact(contact)
     }

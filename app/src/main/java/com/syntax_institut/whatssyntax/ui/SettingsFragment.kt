@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import coil.load
+import coil.transform.CircleCropTransformation
 import com.syntax_institut.whatssyntax.MainViewModel
 import com.syntax_institut.whatssyntax.data.datamodel.Profile
 import com.syntax_institut.whatssyntax.data.remote.BASE_URL
@@ -32,7 +33,9 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getProfile()
         viewModel.profile.observe(viewLifecycleOwner) { profile ->
-            binding.ivProfile.load(BASE_URL + profile.image)
+            binding.ivProfile.load(BASE_URL + profile.image) {
+                transformations(CircleCropTransformation())
+            }
             binding.tietProfileName.setText(profile.name)
             binding.tietProfileNumber.setText(profile.number)
         }

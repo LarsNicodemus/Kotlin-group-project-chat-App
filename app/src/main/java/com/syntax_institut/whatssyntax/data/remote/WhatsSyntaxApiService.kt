@@ -27,16 +27,24 @@ private val retrofit = Retrofit.Builder()
 interface WhatsSyntaxApiService {
 
     @GET("/group/{number}/contacts")
-    suspend fun getContacts(@Path("number")number: Int, @Query ("key") key: String): List<Contact>
+    suspend fun getContacts(@Path("number") number: Int, @Query("key") key: String): List<Contact>
 
     @GET("/group/{number}/contacts/{id}")
-    suspend fun getContact(@Path("number")number: Int, @Path("id")id: Int, @Query ("key") key: String): Contact
+    suspend fun getContact(
+        @Path("number") number: Int,
+        @Path("id") id: Int,
+        @Query("key") key: String
+    ): Contact
 
     @GET("/group/{number}/profile")
-    suspend fun getProfile(@Path("number")number: Int, @Query ("key") key: String): Profile
+    suspend fun getProfile(@Path("number") number: Int, @Query("key") key: String): Profile
 
     @POST("/group/{number}/profile")
-    suspend fun updateProfile(@Path("number")number: Int, @Body profile: Profile, @Query ("key") key: String)
+    suspend fun updateProfile(
+        @Path("number") number: Int,
+        @Body profile: Profile,
+        @Query("key") key: String
+    )
 
 }
 

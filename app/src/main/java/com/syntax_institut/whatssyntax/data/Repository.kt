@@ -11,12 +11,11 @@ class Repository() {
     private val number = 8
     private val key = "JSON_Jugglers"
     private var _contacts = MutableLiveData<List<Contact>>()
-    val contacts: MutableLiveData<List<Contact>> = _contacts
+    var contacts: MutableLiveData<List<Contact>> = _contacts
     private var _contact = MutableLiveData<Contact>()
-    val contact: MutableLiveData<Contact> = _contact
+    var contact: MutableLiveData<Contact> = _contact
     private var _profile = MutableLiveData<Profile>()
-    val profile: MutableLiveData<Profile> = _profile
-
+    var profile: MutableLiveData<Profile> = _profile
 
 
     suspend fun getContacts() {
@@ -25,7 +24,7 @@ class Repository() {
     }
 
     suspend fun getContact(id: Int) {
-        val result = WhatsSyntaxApi.retrofitService.getContact(number,id,key)
+        val result = WhatsSyntaxApi.retrofitService.getContact(number, id, key)
         _contact.postValue(result)
 
     }
@@ -41,6 +40,17 @@ class Repository() {
 
     suspend fun updateProfile(profile: Profile) {
         return WhatsSyntaxApi.retrofitService.updateProfile(number, profile, key)
+    }
+
+    fun markStatusAsRead(contact: Contact) {
+
+        var updatedContact = _contact.value
+
+        if (updatedContact != null) {
+            if (contact.id == _contact.value?.id) {
+                _contact.value = updatedContact!!
+            }
+        }
     }
 
 }

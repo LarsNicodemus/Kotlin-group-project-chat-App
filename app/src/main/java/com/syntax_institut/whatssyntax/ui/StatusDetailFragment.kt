@@ -12,7 +12,7 @@ import coil.load
 import com.syntax_institut.whatssyntax.MainViewModel
 import com.syntax_institut.whatssyntax.databinding.FragmentStatusDetailBinding
 
-class StatusDetailFragment: Fragment() {
+class StatusDetailFragment : Fragment() {
 
     private lateinit var binding: FragmentStatusDetailBinding
     private val viewModel: MainViewModel by activityViewModels()
@@ -45,14 +45,15 @@ class StatusDetailFragment: Fragment() {
                 navigateBack()
             }
         }
-        viewModel.markCurrentStatusAsRead()
-    }
-private fun showImage(index: Int) {
-    val imageUrl = "http://81.169.201.230:8080/${images[index]}"
-    binding.ivStatus.load(imageUrl)
-}
 
-private fun navigateBack() {
-    findNavController().navigateUp()
-}
+    }
+
+    private fun showImage(index: Int) {
+        val imageUrl = "http://81.169.201.230:8080/${images[index]}"
+        binding.ivStatus.load(imageUrl)
+    }
+
+    private fun navigateBack() {
+        findNavController().navigateUp()
+    }
 }

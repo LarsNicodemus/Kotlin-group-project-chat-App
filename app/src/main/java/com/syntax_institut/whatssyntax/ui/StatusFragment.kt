@@ -11,7 +11,7 @@ import com.syntax_institut.whatssyntax.MainViewModel
 import com.syntax_institut.whatssyntax.databinding.FragmentStatusBinding
 import com.syntax_institut.whatssyntax.utils.StatusAdapter
 
-class StatusFragment: Fragment() {
+class StatusFragment : Fragment() {
 
     private lateinit var binding: FragmentStatusBinding
     private val viewModel: MainViewModel by activityViewModels()
@@ -22,19 +22,20 @@ class StatusFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentStatusBinding.inflate(layoutInflater)
-        viewModel.getContacts()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.contacts.observe(viewLifecycleOwner) {contacts ->
-            Log.d("StatusFragment", "Contacts:$contacts")
-            val adapter = StatusAdapter(contacts,viewModel)
-            val recyclerView = binding.rvContacts
-            recyclerView.adapter = adapter
-            adapter.updateContacts(contacts)
+        val recyclerView = binding.rvContacts
+
+
+
+        viewModel.contacts.observe(viewLifecycleOwner) { contacts ->
+            Log.d("StatusFragment", "Contacts: $contacts")
+            recyclerView.adapter = StatusAdapter(contacts, viewModel)
         }
+
     }
 
 }

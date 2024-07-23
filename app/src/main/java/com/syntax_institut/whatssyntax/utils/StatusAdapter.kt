@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.syntax_institut.whatssyntax.MainViewModel
 import com.syntax_institut.whatssyntax.data.datamodel.Contact
+import com.syntax_institut.whatssyntax.data.remote.BASE_URL
 import com.syntax_institut.whatssyntax.databinding.ItemStatusBinding
 import com.syntax_institut.whatssyntax.ui.StatusFragmentDirections
 
@@ -18,6 +19,7 @@ class StatusAdapter(
     private var viewModel: MainViewModel
 ) : RecyclerView.Adapter<StatusAdapter.StatusViewHolder>() {
     private var contacts: List<Contact> = sortContacts(contacts)
+
     inner class StatusViewHolder(val binding: ItemStatusBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -30,27 +32,31 @@ class StatusAdapter(
     }
 
     override fun onBindViewHolder(holder: StatusAdapter.StatusViewHolder, position: Int) {
-        var contact = contacts[position]
-        holder.binding.apply {
-            tvStatusName.text = contact.name
-            ivStatusImage.load("http://81.169.201.230:8080/${contact.image}")
+        val contact = contacts[position]
 
-            val hasUnreadStatus = contact.status != null && !contact.status!!.isRead
+        holder.binding.apply {
+            val hasUnreadStatus = contact.status != null && !contact.statusSeen
+
+            tvStatusName.text = contact.name
+            ivStatusImage.load(BASE_URL + contact.image)
+
             val saturation = if (hasUnreadStatus) 1f else 0f
             ivStatusImage.colorFilter = ColorMatrixColorFilter(ColorMatrix().apply {
                 setSaturation(saturation)
             })
-
             cvStatus.isClickable = hasUnreadStatus
             cvStatus.setOnClickListener {
                 if (hasUnreadStatus) {
-                    contact.markStatusAsRead()
-                    val action = StatusFragmentDirections.actionStatusFragmentToStatusDetailFragment(
-                        contact.status?.images.toString()
-                    )
+                    contact.statusSeen = true
+                    viewModel.selectContact(contact)
+                    val action =
+                        StatusFragmentDirections.actionStatusFragmentToStatusDetailFragment(
+                            contact.status?.images.toString()
+                        )
                     it.findNavController().navigate(action)
                     notifyItemChanged(position)
                 }
+
             }
         }
     }
@@ -59,13 +65,7 @@ class StatusAdapter(
         return contacts.size
     }
 
-    fun updateContacts(newContacts: List<Contact>) {
-        contacts = sortContacts(newContacts)
-        notifyDataSetChanged()
-    }
-
     private fun sortContacts(contacts: List<Contact>): List<Contact> {
-        return contacts.sortedWith(compareByDescending { it.status != null })
+        return contacts.sortedByDescending { it.status != null }
     }
-
 }

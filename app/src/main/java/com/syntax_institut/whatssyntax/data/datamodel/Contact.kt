@@ -5,9 +5,6 @@ data class Contact(
     val name: String,
     val number: String,
     val image: String,
-    val status: Status?
-) {
-    fun markStatusAsRead() {
-        status?.isRead = true
-    }
-}
+    val status: Status?,
+    var statusSeen: Boolean = false
+)
