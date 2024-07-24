@@ -23,7 +23,11 @@
     <fragment
         android:id="@+id/chatDetailFragment"
         android:name="com.syntax_institut.whatssyntax.ui.ChatDetailFragment"
-        android:label="ChatDetailFragment" />
+        android:label="ChatDetailFragment" >
+        <argument
+            android:name="contactId"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/statusDetailFragment"
         android:name="com.syntax_institut.whatssyntax.ui.StatusDetailFragment"
@@ -39,5 +43,9 @@
     <fragment
         android:id="@+id/chatsFragment"
         android:name="com.syntax_institut.whatssyntax.ui.ChatsFragment"
-        android:label="ChatsFragment" />
+        android:label="ChatsFragment" >
+        <action
+            android:id="@+id/action_chatsFragment_to_chatDetailFragment"
+            app:destination="@id/chatDetailFragment" />
+    </fragment>
 </navigation>

@@ -31,7 +31,6 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getProfile()
         viewModel.profile.observe(viewLifecycleOwner) { profile ->
             binding.ivProfile.load(BASE_URL + profile.image) {
                 transformations(CircleCropTransformation())

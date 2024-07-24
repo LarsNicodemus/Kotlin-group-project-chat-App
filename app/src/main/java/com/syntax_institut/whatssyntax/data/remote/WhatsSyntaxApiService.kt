@@ -3,7 +3,9 @@ package com.syntax_institut.whatssyntax.data.remote
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.syntax_institut.whatssyntax.data.datamodel.CallResponse
+import com.syntax_institut.whatssyntax.data.datamodel.ChatList
 import com.syntax_institut.whatssyntax.data.datamodel.Contact
+import com.syntax_institut.whatssyntax.data.datamodel.Message
 import com.syntax_institut.whatssyntax.data.datamodel.Profile
 import com.syntax_institut.whatssyntax.data.datamodel.WhatsSyntaxResponse
 import retrofit2.Response
@@ -39,7 +41,12 @@ interface WhatsSyntaxApiService {
     ): Contact
 
     @GET("/group/{number}/chats")
-    suspend fun getChats(@Path("number") number: Int, @Query("key") key: String): List<Contact>
+    suspend fun getChats(@Path("number") number: Int, @Query("key") key: String): List<ChatList>
+    @GET("/group/{number}/chat/{id}")
+    suspend fun getChat(
+        @Path("number") number: Int,
+        @Path("id") id: Int,
+        @Query("key") key: String): List<Message>
     @GET("/group/{number}/calls")
     suspend fun getCalls(@Path("number") number: Int, @Query("key") key: String): List<CallResponse>
 
@@ -50,6 +57,14 @@ interface WhatsSyntaxApiService {
     suspend fun updateProfile(
         @Path("number") number: Int,
         @Body profile: Profile,
+        @Query("key") key: String
+    )
+
+    @POST("/group/{number}/chats/{chatId}/new-message")
+    suspend fun sendMessage(
+        @Path("number") number: Int,
+        @Path("chatId") chatId: Int,
+        @Body message: Message,
         @Query("key") key: String
     )
 

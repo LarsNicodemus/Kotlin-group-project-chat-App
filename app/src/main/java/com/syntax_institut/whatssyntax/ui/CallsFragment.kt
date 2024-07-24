@@ -22,7 +22,6 @@ class CallsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCallsBinding.inflate(layoutInflater)
-        viewModel.getCalls()
         return binding.root
     }
 

@@ -33,19 +33,20 @@ class CallAdapter(
             ivCallContactImage.load(BASE_URL+contact.image)
             tvCallName.text = contact.name
             tvCallTime.text = callResponse.time
-            val imageResource = when {
-                callResponse.incoming && callResponse.accepted -> R.drawable.icon_call_accepted
-                !callResponse.incoming && callResponse.accepted -> R.drawable.icon_call_accepted
-                callResponse.incoming && !callResponse.accepted -> R.drawable.icon_call_missed
-                else -> R.drawable.icon_call_missed
-            }
+            val imageResource = imageResource(callResponse)
             ivCallStatus.setImageResource(imageResource)
             ivCallStatus.rotation = if (callResponse.incoming) 180f else 0f
         }
         }
 
+    private fun imageResource(callResponse: CallResponse): Int {
+        val imageResource = when {
+            callResponse.incoming && callResponse.accepted -> R.drawable.icon_call_accepted
+            !callResponse.incoming && callResponse.accepted -> R.drawable.icon_call_accepted
+            callResponse.incoming && !callResponse.accepted -> R.drawable.icon_call_missed
+            else -> R.drawable.icon_call_missed
+        }
+        return imageResource
+    }
 
-//    private fun sortContacts(contacts: List<CallResponse>): List<CallResponse> {
-//        return contacts.sortedByDescending { it.time }
-//    }
 }

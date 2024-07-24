@@ -4,7 +4,7 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.devtools.ksp")
 }
-
+val apiKey = com.android.build.gradle.internal.cxx.configure.gradleLocalProperties(rootDir).getProperty("apiKey")
 android {
     namespace = "com.syntax_institut.whatssyntax"
     compileSdk = 34
@@ -21,11 +21,15 @@ android {
 
     buildTypes {
         release {
+            buildConfigField("String","apiKey",apiKey)
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        debug {
+            buildConfigField("String","apiKey",apiKey)
         }
     }
     compileOptions {
@@ -38,6 +42,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
