@@ -1,6 +1,8 @@
 package com.syntax_institut.whatssyntax.ui
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +18,8 @@ class ChatsFragment : Fragment() {
     private lateinit var binding: FragmentChatsBinding
     private val viewModel: MainViewModel by activityViewModels()
     private lateinit var chatAdapter: ChatAdapter
+    private val handler = Handler(Looper.getMainLooper())
+    private val pollInterval: Long = 3000 // 3 Sekunden
 
     override fun onResume() {
         super.onResume()
@@ -42,7 +46,22 @@ class ChatsFragment : Fragment() {
             chatAdapter.updateChats(chatList)
             Log.d("ChatsFragment", "Observed new chat list: $chatList")
         }
+        startPolling()
 
     }
 
+    private fun startPolling() {
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                viewModel.getChats()
+                handler.postDelayed(this, pollInterval)
+            }
+        }, pollInterval)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        handler.removeCallbacksAndMessages(null)
+    }
 }
+

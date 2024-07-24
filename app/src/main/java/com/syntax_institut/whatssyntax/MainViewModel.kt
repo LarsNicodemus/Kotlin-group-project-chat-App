@@ -55,7 +55,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    private fun getChats() {
+    fun getChats() {
         viewModelScope.launch {
             try {
                 repository.getChats()

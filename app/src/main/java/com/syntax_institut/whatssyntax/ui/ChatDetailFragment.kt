@@ -1,6 +1,8 @@
 package com.syntax_institut.whatssyntax.ui
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +21,8 @@ class ChatDetailFragment : Fragment() {
     private val viewModel: MainViewModel by activityViewModels()
     private val args: ChatDetailFragmentArgs by navArgs()
     private lateinit var adapter: ChatDetailAdapter
+    private val handler = Handler(Looper.getMainLooper())
+    private val pollInterval: Long = 3000 // 3 Sekunden
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,5 +55,19 @@ class ChatDetailFragment : Fragment() {
                 binding.tietMessage.setText("")
             }
         }
+        startPolling()
+    }
+    private fun startPolling() {
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                viewModel.getChat(args.contactId)
+                handler.postDelayed(this, pollInterval)
+            }
+        }, pollInterval)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        handler.removeCallbacksAndMessages(null)
     }
 }
