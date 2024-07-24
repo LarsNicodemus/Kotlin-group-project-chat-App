@@ -57,6 +57,7 @@ class ChatDetailFragment : Fragment() {
         }
         startPolling()
     }
+
     private fun startPolling() {
         handler.postDelayed(object : Runnable {
             override fun run() {
