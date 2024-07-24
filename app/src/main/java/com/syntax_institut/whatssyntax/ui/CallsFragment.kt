@@ -28,10 +28,10 @@ class CallsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val recyclerView = binding.rvCalls
-        viewModel.callResponse.observe(viewLifecycleOwner) {response ->
+        viewModel.callResponse.observe(viewLifecycleOwner) { response ->
 
             Log.d("StatusFragment", "Contacts: $response")
-            recyclerView.adapter = CallAdapter(response,viewModel)
+            recyclerView.adapter = CallAdapter(response, viewModel)
         }
     }
 }

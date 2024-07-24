@@ -22,6 +22,7 @@ class ChatsFragment : Fragment() {
         Log.d("ChatsFragment", "onResume called")
         viewModel.refreshChats()
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -35,10 +36,9 @@ class ChatsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val recyclerView = binding.rvChats
-        chatAdapter = ChatAdapter(emptyList(),viewModel)
+        chatAdapter = ChatAdapter(emptyList(), viewModel)
         recyclerView.adapter = chatAdapter
         viewModel.chats.observe(viewLifecycleOwner) { chatList ->
-            chatAdapter
             chatAdapter.updateChats(chatList)
             Log.d("ChatsFragment", "Observed new chat list: $chatList")
         }

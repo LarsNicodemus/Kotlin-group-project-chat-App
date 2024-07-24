@@ -22,7 +22,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     var callResponse = repository.callResponses
 
-    var contactsForCalls = repository.response
 
     var chats = repository.chats
 
@@ -86,6 +85,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
+
     fun refreshChats() {
         Log.d("MainViewModel", "Refreshing chats")
         viewModelScope.launch {
@@ -98,66 +98,39 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
 
-        fun getContact(id: Int) {
-            viewModelScope.launch {
-                try {
-                    repository.getContact(id)
-                } catch (e: Exception) {
-                    Log.e("MainViewModel", "Error loading contact", e)
-                }
+    private fun getProfile() {
+        viewModelScope.launch {
+            try {
+                repository.getProfile()
+            } catch (e: Exception) {
+                Log.e("MainViewModel", "Error loading profile", e)
             }
-        }
-
-        fun markCurrentStatusAsRead() {
-            val currentContact = contact.value
-            currentContact?.statusSeen = true
-            contact.value = currentContact
-        }
-
-        fun markStatusAsReadTwo(contact: Contact) {
-            repository.markStatusAsRead(contact)
-        }
-
-        fun markCurrentStatusAsUnread() {
-            val currentContact = contact.value
-            currentContact?.statusSeen = false
-            contact.value = currentContact
-        }
-
-        fun getProfile() {
-            viewModelScope.launch {
-                try {
-                    repository.getProfile()
-                } catch (e: Exception) {
-                    Log.e("MainViewModel", "Error loading profile", e)
-                }
-            }
-        }
-
-
-        fun updateProfile(profile: Profile) {
-            viewModelScope.launch {
-                try {
-                    repository.updateProfile(profile)
-                } catch (e: Exception) {
-                    Log.e("MainViewModel", "Error updating profile", e)
-                }
-            }
-        }
-
-
-
-        fun selectContact(contact: Contact) {
-            repository.selectContact(contact)
-        }
-
-        fun isValidName(name: String): Boolean {
-            // Name sollte nicht leer sein und keine Zahlen oder Sonderzeichen enthalten
-            return name.isNotBlank() && name.matches(Regex("^[\\p{L} .'-]+$"))
-        }
-
-        fun isValidPhoneNumber(number: String): Boolean {
-            // Telefonnummer sollte nur Zahlen, '+', '-' und Leerzeichen enthalten
-            return number.isNotBlank() && number.matches(Regex("^[+\\d\\s-]+$"))
         }
     }
+
+
+    fun updateProfile(profile: Profile) {
+        viewModelScope.launch {
+            try {
+                repository.updateProfile(profile)
+            } catch (e: Exception) {
+                Log.e("MainViewModel", "Error updating profile", e)
+            }
+        }
+    }
+
+
+    fun selectContact(contact: Contact) {
+        repository.selectContact(contact)
+    }
+
+    fun isValidName(name: String): Boolean {
+        // Name sollte nicht leer sein und keine Zahlen oder Sonderzeichen enthalten
+        return name.isNotBlank() && name.matches(Regex("^[\\p{L} .'-]+$"))
+    }
+
+    fun isValidPhoneNumber(number: String): Boolean {
+        // Telefonnummer sollte nur Zahlen, '+', '-' und Leerzeichen enthalten
+        return number.isNotBlank() && number.matches(Regex("^[+\\d\\s-]+$"))
+    }
+}

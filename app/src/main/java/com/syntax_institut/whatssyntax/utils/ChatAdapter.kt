@@ -35,16 +35,18 @@ class ChatAdapter(
         holder.binding.apply {
             tvChatContactName.text = contact.name
             tvChatLastMess.text = chat.lastMessage.text
-            ivChatContactImage.load(BASE_URL+contact.image)
+            ivChatContactImage.load(BASE_URL + contact.image)
 
             cvChat.setOnClickListener {
                 viewModel.selectContact(contact)
-                val action = ChatsFragmentDirections.actionChatsFragmentToChatDetailFragment(chat.id)
+                val action =
+                    ChatsFragmentDirections.actionChatsFragmentToChatDetailFragment(chat.id)
                 it.findNavController().navigate(action)
                 notifyItemChanged(position)
             }
         }
     }
+
     fun updateChats(newChats: List<ChatList>) {
         Log.d("ChatAdapter", "Updating chats: $newChats")
         chats = newChats

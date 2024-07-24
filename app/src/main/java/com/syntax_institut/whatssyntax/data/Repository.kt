@@ -4,14 +4,13 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.syntax_institut.whatssyntax.BuildConfig
 
-import com.syntax_institut.whatssyntax.data.datamodel.CallResponse
+import com.syntax_institut.whatssyntax.data.datamodel.Call
 import com.syntax_institut.whatssyntax.data.datamodel.ChatList
 import com.syntax_institut.whatssyntax.data.datamodel.Contact
 import com.syntax_institut.whatssyntax.data.datamodel.Message
 import com.syntax_institut.whatssyntax.data.datamodel.Profile
-import com.syntax_institut.whatssyntax.data.datamodel.WhatsSyntaxResponse
+import com.syntax_institut.whatssyntax.data.datamodel.CallListResponse
 import com.syntax_institut.whatssyntax.data.remote.WhatsSyntaxApi
-import retrofit2.Response
 
 class Repository() {
 
@@ -23,10 +22,10 @@ class Repository() {
     var contact: MutableLiveData<Contact> = _contact
     private var _profile = MutableLiveData<Profile>()
     var profile: MutableLiveData<Profile> = _profile
-    private var _callResponses = MutableLiveData<List<CallResponse>>()
-    var callResponses: MutableLiveData<List<CallResponse>> = _callResponses
-    private var _response = MutableLiveData<WhatsSyntaxResponse>()
-    var response: MutableLiveData<WhatsSyntaxResponse> = _response
+    private var _callResponses = MutableLiveData<List<Call>>()
+    var callResponses: MutableLiveData<List<Call>> = _callResponses
+    private var _response = MutableLiveData<CallListResponse>()
+    var response: MutableLiveData<CallListResponse> = _response
     private var _chats = MutableLiveData<List<ChatList>>()
     var chats: MutableLiveData<List<ChatList>> = _chats
     private var _chat = MutableLiveData<List<Message>>()
@@ -49,15 +48,18 @@ class Repository() {
         Log.d("Repository", "Received chats from API: $result")
         _chats.postValue(result)
     }
+
     suspend fun getChat(id: Int) {
         val result = WhatsSyntaxApi.retrofitService.getChat(number, id, key)
         _chat.postValue(result)
     }
+
     suspend fun getContact(id: Int) {
         val result = WhatsSyntaxApi.retrofitService.getContact(number, id, key)
         _contact.postValue(result)
 
     }
+
     suspend fun sendMessage(chatId: Int, message: Message) {
         return WhatsSyntaxApi.retrofitService.sendMessage(number, chatId, message, key)
     }
@@ -73,17 +75,6 @@ class Repository() {
 
     suspend fun updateProfile(profile: Profile) {
         return WhatsSyntaxApi.retrofitService.updateProfile(number, profile, key)
-    }
-
-    fun markStatusAsRead(contact: Contact) {
-
-        var updatedContact = _contact.value
-
-        if (updatedContact != null) {
-            if (contact.id == _contact.value?.id) {
-                _contact.value = updatedContact!!
-            }
-        }
     }
 
 }

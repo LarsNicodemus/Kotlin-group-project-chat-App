@@ -2,13 +2,11 @@ package com.syntax_institut.whatssyntax.data.remote
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import com.syntax_institut.whatssyntax.data.datamodel.CallResponse
+import com.syntax_institut.whatssyntax.data.datamodel.Call
 import com.syntax_institut.whatssyntax.data.datamodel.ChatList
 import com.syntax_institut.whatssyntax.data.datamodel.Contact
 import com.syntax_institut.whatssyntax.data.datamodel.Message
 import com.syntax_institut.whatssyntax.data.datamodel.Profile
-import com.syntax_institut.whatssyntax.data.datamodel.WhatsSyntaxResponse
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.Body
@@ -42,13 +40,16 @@ interface WhatsSyntaxApiService {
 
     @GET("/group/{number}/chats")
     suspend fun getChats(@Path("number") number: Int, @Query("key") key: String): List<ChatList>
+
     @GET("/group/{number}/chat/{id}")
     suspend fun getChat(
         @Path("number") number: Int,
         @Path("id") id: Int,
-        @Query("key") key: String): List<Message>
+        @Query("key") key: String
+    ): List<Message>
+
     @GET("/group/{number}/calls")
-    suspend fun getCalls(@Path("number") number: Int, @Query("key") key: String): List<CallResponse>
+    suspend fun getCalls(@Path("number") number: Int, @Query("key") key: String): List<Call>
 
     @GET("/group/{number}/profile")
     suspend fun getProfile(@Path("number") number: Int, @Query("key") key: String): Profile

@@ -11,12 +11,14 @@ import com.syntax_institut.whatssyntax.databinding.ItemChatOutBinding
 class ChatDetailAdapter(
     private val messageList: MutableList<Message>,
     private var viewModel: MainViewModel
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
+    inner class IncomingViewHolder(val binding: ItemChatInBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
-    inner class IncomingViewHolder(val binding: ItemChatInBinding): RecyclerView.ViewHolder(binding.root)
-    inner class OutgoingViewHolder(val binding: ItemChatOutBinding): RecyclerView.ViewHolder(binding.root)
+    inner class OutgoingViewHolder(val binding: ItemChatOutBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     private val incomeMessage = 1
     private val outgoingMessage = 2
@@ -35,13 +37,16 @@ class ChatDetailAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == incomeMessage) {
-            val binding = ItemChatInBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            val binding =
+                ItemChatInBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             IncomingViewHolder(binding)
         } else {
-            val binding = ItemChatOutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            val binding =
+                ItemChatOutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             OutgoingViewHolder(binding)
         }
     }
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val message = messageList[position]
 
@@ -52,14 +57,10 @@ class ChatDetailAdapter(
         } else if (holder is OutgoingViewHolder) {
             holder.binding.apply {
                 tvMessageOut.text = message.text
+            }
         }
     }
-}
-    fun addMessage(chatId: Int, message: Message) {
-        messageList.add(message)
-        notifyItemInserted(messageList.size - 1)
-        viewModel.sendMessage(chatId, message)
-    }
+
     fun updateMessages(newMessages: List<Message>) {
         messageList.clear()
         messageList.addAll(newMessages)

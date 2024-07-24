@@ -6,16 +6,17 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.syntax_institut.whatssyntax.MainViewModel
 import com.syntax_institut.whatssyntax.R
-import com.syntax_institut.whatssyntax.data.datamodel.CallResponse
+import com.syntax_institut.whatssyntax.data.datamodel.Call
 import com.syntax_institut.whatssyntax.data.remote.BASE_URL
 import com.syntax_institut.whatssyntax.databinding.ItemCallBinding
 
 class CallAdapter(
-    callResponseList: List<CallResponse>,
+    callList: List<Call>,
     private var viewModel: MainViewModel
-): RecyclerView.Adapter<CallAdapter.ViewHolder>() {
-    private var contacts: List<CallResponse> = callResponseList
-    inner class ViewHolder(val binding: ItemCallBinding): RecyclerView.ViewHolder(binding.root)
+) : RecyclerView.Adapter<CallAdapter.ViewHolder>() {
+    private var contacts: List<Call> = callList
+
+    inner class ViewHolder(val binding: ItemCallBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemCallBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -30,20 +31,20 @@ class CallAdapter(
         val callResponse = contacts[position]
         val contact = contacts[position].contact
         holder.binding.apply {
-            ivCallContactImage.load(BASE_URL+contact.image)
+            ivCallContactImage.load(BASE_URL + contact.image)
             tvCallName.text = contact.name
             tvCallTime.text = callResponse.time
             val imageResource = imageResource(callResponse)
             ivCallStatus.setImageResource(imageResource)
             ivCallStatus.rotation = if (callResponse.incoming) 180f else 0f
         }
-        }
+    }
 
-    private fun imageResource(callResponse: CallResponse): Int {
+    private fun imageResource(call: Call): Int {
         val imageResource = when {
-            callResponse.incoming && callResponse.accepted -> R.drawable.icon_call_accepted
-            !callResponse.incoming && callResponse.accepted -> R.drawable.icon_call_accepted
-            callResponse.incoming && !callResponse.accepted -> R.drawable.icon_call_missed
+            call.incoming && call.accepted -> R.drawable.icon_call_accepted
+            !call.incoming && call.accepted -> R.drawable.icon_call_accepted
+            call.incoming && !call.accepted -> R.drawable.icon_call_missed
             else -> R.drawable.icon_call_missed
         }
         return imageResource
