@@ -3,16 +3,22 @@ package com.syntax_institut.whatssyntax
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.syntax_institut.whatssyntax.data.Repository
 import com.syntax_institut.whatssyntax.data.datamodel.Contact
 import com.syntax_institut.whatssyntax.data.datamodel.Message
+import com.syntax_institut.whatssyntax.data.datamodel.Note
 import com.syntax_institut.whatssyntax.data.datamodel.Profile
+import com.syntax_institut.whatssyntax.data.local.NoteDatabase
+import com.syntax_institut.whatssyntax.data.local.WhatsSyntaxDatabaseDao
+import com.syntax_institut.whatssyntax.data.local.getDatabase
 import kotlinx.coroutines.launch
 
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository = Repository()
+    private val database: NoteDatabase = getDatabase(application)
+    private val repository = Repository(database)
 
     var contacts = repository.contacts
 
@@ -26,6 +32,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var chats = repository.chats
 
     var chat = repository.chat
+
+    val notes = repository.noteList
 
 
     init {
@@ -132,5 +140,33 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun isValidPhoneNumber(number: String): Boolean {
         // Telefonnummer sollte nur Zahlen, '+', '-' und Leerzeichen enthalten
         return number.isNotBlank() && number.matches(Regex("^[+\\d\\s-]+$"))
+    }
+
+    fun insertNote(note: Note){
+        viewModelScope.launch {
+            repository.insertNote(note)
+        }
+    }
+
+    fun updateNote(note: Note){
+        viewModelScope.launch {
+            repository.updateNote(note)
+        }
+    }
+
+    fun deleteNote(id: Long){
+        viewModelScope.launch {
+            repository.deleteNote(id)
+        }
+    }
+
+    fun deleteAllNotes(){
+        viewModelScope.launch {
+            repository.deleteAllNotes()
+        }
+    }
+
+    fun getNote(id: Long): LiveData<Note> {
+        return repository.getNote(id)
     }
 }

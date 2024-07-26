@@ -7,6 +7,8 @@ import com.syntax_institut.whatssyntax.data.datamodel.ChatList
 import com.syntax_institut.whatssyntax.data.datamodel.Contact
 import com.syntax_institut.whatssyntax.data.datamodel.Message
 import com.syntax_institut.whatssyntax.data.datamodel.Profile
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.Body
@@ -17,6 +19,13 @@ import retrofit2.http.Query
 
 const val BASE_URL = "http://81.169.201.230:8080"
 
+private val logger: HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
+    level = HttpLoggingInterceptor.Level.BODY
+}
+private val httpClient = OkHttpClient.Builder()
+    .addInterceptor(logger)
+    .build()
+
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
     .build()
@@ -24,6 +33,7 @@ private val moshi = Moshi.Builder()
 private val retrofit = Retrofit.Builder()
     .addConverterFactory(MoshiConverterFactory.create(moshi))
     .baseUrl(BASE_URL)
+    .client(httpClient)
     .build()
 
 interface WhatsSyntaxApiService {

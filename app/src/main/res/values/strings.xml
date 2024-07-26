@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">WhatsSyntax</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_note">add Note</string>
+    <string name="add">add</string>
+    <string name="cancel">cancel</string>
+    <string name="text">Text</string>
+    <string name="title">title</string>
+    <string name="titletwo">Title</string>
+    <string name="note_text">note text</string>
+    <string name="note_title">note title</string>
+    <string name="edit">edit</string>
+    <string name="delete">delete</string>
+    <string name="save">Save</string>
 </resources>
